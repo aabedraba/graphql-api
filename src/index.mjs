@@ -1,6 +1,7 @@
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+import { ApolloServerPluginCacheControl } from "@apollo/server/plugin/cacheControl";
 import { typeDefs, resolvers } from "./graphql.mjs";
 import express from "express";
 import http from "http";
@@ -14,7 +15,12 @@ const httpServer = http.createServer(app);
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    ApolloServerPluginCacheControl({
+      calculateHttpHeaders: false,
+    }),
+  ],
 });
 await server.start();
 
