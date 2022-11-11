@@ -18,7 +18,7 @@ const server = new ApolloServer({
   plugins: [
     ApolloServerPluginDrainHttpServer({ httpServer }),
     ApolloServerPluginCacheControl({
-      calculateHttpHeaders: false,
+      defaultMaxAge: 600,
     }),
   ],
 });
